@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>TRevor CW</title>
+        <link rel="shortcut icon" href="../favicon.ico">
+        <script type="text/javascript" src="../libs/three.js"></script>
+        <script type="text/javascript" src="../libs/jquery.js"></script>
+        <script type="text/javascript" src="../libs/stats.js"></script>
+        <style>
+            body{
+                /* set margin to 0 and overflow to hidden, to go fullscreen */
+                margin: 0;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="Stats-output">
+        </div>
+        <!-- Div which will hold the Output -->
+        <div id="WebGL-output">
+        </div>
+
+        <!-- Javascript code that runs our Three.js examples -->
+        <script type="text/javascript">
+
+            // once everything is loaded, we run our Three.js stuff.
+            $(function () {
+
+                var stats = initStats();
+
+
+                // create a camera, which defines where we're looking at.
+
+
+                var camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 2000);
+
+                // create a scene, that will hold all our elements such as objects, cameras and lights.
+                var scene = new THREE.Scene();
+
+
+
+                // create a render and set the size
+                var renderer = new THREE.WebGLRenderer();
+
+                renderer.setClearColor(0xEEEEEE, 1.0);
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.shadowMap.enabled = true;
+
+                // create the ground plane
+                var planeGeometry = new THREE.PlaneGeometry(50, 50, 1, 1);
+                var planeMaterial = new THREE.MeshLambertMaterial({color: 0xADFF2F});
+                var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+                plane.receiveShadow = true;
+
+                // rotate and position the plane
+                plane.rotation.x = -0.5 * Math.PI;
+
+                // add the plane to the scene
+                scene.add(plane);
+
+
+                //BOTTOM BUILDING
+
+                var buildingMaterial1 = new THREE.MeshLambertMaterial({color: 0x696969});
+
+                var buildingGeometry1 = new THREE.CubeGeometry(14, 15, 15);
+
+                var building1 = new THREE.Mesh(buildingGeometry1, buildingMaterial1);
+                building1.castShadow = true;
+                building1.position.y = 3;
+                scene.add(building1);
+
+                //PAVEMENT
+
+                var texture = new THREE.TextureLoader().load("../assets/textures/general/concrete.png");
+
+                var buildingMaterial2222 = new THREE.MeshLambertMaterial({map: texture});
+                var buildingGeometry2222 = new THREE.CubeGeometry(25, 0.15, 25);
+
+                var building2222 = new THREE.Mesh(buildingGeometry2222, buildingMaterial2222);
+                building2222.receiveShadow = true;
+                building2222.position.y = 0.10;
+
+                scene.add(building2222);
+
+                //SIDEWALK
+
+                var buildingMaterial2223 = new THREE.MeshLambertMaterial({color: 0x696969});
+                var buildingGeometry2223 = new THREE.CubeGeometry(27, .15, 27);
+
+                var building2223 = new THREE.Mesh(buildingGeometry2223, buildingMaterial2223);
+                building2223.receiveShadow = true;
+                building2223.position.y = .07;
+
+                scene.add(building2223);
+
+                //ROAD
+                var roadtexture = new THREE.TextureLoader().load("../assets/textures/general/road1.png");
+                var buildingMaterial2224 = new THREE.MeshLambertMaterial({map: roadtexture});
+                var buildingGeometry2224 = new THREE.CubeGeometry(9, .15, 50);
+
+                var building2224 = new THREE.Mesh(buildingGeometry2224, buildingMaterial2224);
+                building2224.position.y = .07;
+                building2224.position.x = -21;
+
+                scene.add(building2224);
+
+                //ROOF
+
+                var buildingMaterial2 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry2 = new THREE.CubeGeometry(16, 0.5, 16);
+
+                var building2 = new THREE.Mesh(buildingGeometry2, buildingMaterial2);
+                building2.castShadow = true;
+                building2.position.y = 11;
+
+                scene.add(building2);
+
+                //TOP OF ROOF
+
+                var buildingMaterial222 = new THREE.MeshLambertMaterial({color: 0x696969});
+                var buildingGeometry222 = new THREE.CubeGeometry(14, 1, 15);
+
+                var building222 = new THREE.Mesh(buildingGeometry222, buildingMaterial222);
+                building2.castShadow = true;
+                building222.position.y = 11.1;
+
+                scene.add(building222);
+
+                //SKIRTING BOARD
+
+                var building2001 = new THREE.Mesh(buildingGeometry2, buildingMaterial2);
+
+                building2001.position.y = 0.30;
+
+                scene.add(building2001);
+
+
+                //TOP AND BOTTOM SCAFFOLD 
+
+                var buildingMaterial3 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry3 = new THREE.CubeGeometry(6, 0.25, 4);
+
+                var building3 = new THREE.Mesh(buildingGeometry3, buildingMaterial3);
+                building3.castShadow = true;
+                building3.position.y = 4;
+                building3.position.x = 1.5;
+                building3.position.z = 9;
+
+                scene.add(building3);
+
+                var buildingMaterial4 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry4 = new THREE.CubeGeometry(6, 0.25, 4);
+
+                var building4 = new THREE.Mesh(buildingGeometry4, buildingMaterial4);
+                building4.castShadow = true;
+                building4.position.y = 0.25;
+                building4.position.x = 1.5;
+                building4.position.z = 9;
+
+                scene.add(building4);
+
+                var buildingMaterial5 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry5 = new THREE.CubeGeometry(4, 0.25, 4);
+
+                var building5 = new THREE.Mesh(buildingGeometry5, buildingMaterial5);
+                building5.castShadow = true;
+                building5.position.y = 3.9;
+                building5.position.x = -8;
+                building5.position.z = 5.45;
+
+                scene.add(building5);
+
+                var buildingMaterial6 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry6 = new THREE.CubeGeometry(4, 0.25, 4);
+
+                var building6 = new THREE.Mesh(buildingGeometry6, buildingMaterial6);
+                building6.castShadow = true;
+                building6.position.y = .25;
+                building6.position.x = -8;
+                building6.position.z = 5.45;
+
+                scene.add(building6);
+
+
+                var buildingMaterial7 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry7 = new THREE.CubeGeometry(4, 0.25, 10);
+
+                var building7 = new THREE.Mesh(buildingGeometry7, buildingMaterial7);
+                building7.castShadow = true;
+                building7.position.y = 9;
+                building7.position.x = -8;
+                building7.position.z = 0;
+
+                scene.add(building7);
+
+
+                //BALCONIES
+
+                var buildingMaterial8 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry8 = new THREE.CubeGeometry(4, 0.25, 10);
+
+                var building8 = new THREE.Mesh(buildingGeometry8, buildingMaterial8);
+                building8.castShadow = true;
+                building8.position.y = 5.5;
+                building8.position.x = -9.0;
+                building8.position.z = -0.12;
+
+                scene.add(building8);
+
+
+                var buildingMaterial9 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry9 = new THREE.CubeGeometry(3.75, 2, 0.25);
+
+                var building9 = new THREE.Mesh(buildingGeometry9, buildingMaterial9);
+                building9.castShadow = true;
+                building9.position.y = 6.5;
+                building9.position.x = -9;
+                building9.position.z = 4.75;
+
+                scene.add(building9);
+
+                var buildingMaterial10 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry10 = new THREE.CubeGeometry(3.75, 2, 0.25);
+
+                var building10 = new THREE.Mesh(buildingGeometry10, buildingMaterial10);
+                building10.castShadow = true;
+                building10.position.y = 6.5;
+                building10.position.x = -9;
+                building10.position.z = -5;
+
+                scene.add(building10);
+
+                var buildingMaterial11 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry11 = new THREE.CubeGeometry(0.25, 2, 10);
+
+                var building11 = new THREE.Mesh(buildingGeometry11, buildingMaterial11);
+                building11.castShadow = true;
+                building11.position.y = 6.45;
+                building11.position.x = -10.89;
+                building11.position.z = -0.15;
+
+                scene.add(building11);
+
+
+                //SOUTH WINDOWS
+
+                var windowmesh = new THREE.TextureLoader().load("../assets/textures/general/window.png");
+
+                var buildingMaterial12 = new THREE.MeshLambertMaterial({map: windowmesh});
+                var buildingGeometry12 = new THREE.CubeGeometry(0.25, 2, 2);
+
+                //SOUTH WINDOW FRAMES
+
+                var buildingMaterial121 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry121 = new THREE.CubeGeometry(0.25, 2.5, 2.5);
+
+
+                var southwindow1 = new THREE.Mesh(buildingGeometry12, buildingMaterial12);
+
+                southwindow1.position.y = 6.85;
+                southwindow1.position.x = -6.89;
+                southwindow1.position.z = 2.0;
+
+                scene.add(southwindow1);
+
+                var southwindowframe1 = new THREE.Mesh(buildingGeometry121, buildingMaterial121);
+
+                southwindowframe1.position.y = 6.85;
+                southwindowframe1.position.x = -6.88;
+                southwindowframe1.position.z = 2.0;
+
+                scene.add(southwindowframe1);
+
+                var southwindow2 = new THREE.Mesh(buildingGeometry12, buildingMaterial12);
+
+                southwindow2.position.y = 6.85;
+                southwindow2.position.x = -6.89;
+                southwindow2.position.z = -2.5;
+
+                scene.add(southwindow2);
+
+                var southwindowframe2 = new THREE.Mesh(buildingGeometry121, buildingMaterial121);
+
+                southwindowframe2.position.y = 6.85;
+                southwindowframe2.position.x = -6.88;
+                southwindowframe2.position.z = -2.5;
+
+                scene.add(southwindowframe2);
+
+                var southwindow3 = new THREE.Mesh(buildingGeometry12, buildingMaterial12);
+
+                southwindow3.position.y = 2;
+                southwindow3.position.x = -6.89;
+                southwindow3.position.z = -2.5;
+
+                scene.add(southwindow3);
+
+                var southwindowframe3 = new THREE.Mesh(buildingGeometry121, buildingMaterial121);
+
+                southwindowframe3.position.y = 2;
+                southwindowframe3.position.x = -6.88;
+                southwindowframe3.position.z = -2.5;
+
+                scene.add(southwindowframe3);
+
+                var southwindow4 = new THREE.Mesh(buildingGeometry12, buildingMaterial12);
+
+                southwindow4.position.y = 2;
+                southwindow4.position.x = -6.89;
+                southwindow4.position.z = 2.0;
+
+                scene.add(southwindow4);
+
+                var southwindowframe4 = new THREE.Mesh(buildingGeometry121, buildingMaterial121);
+
+                southwindowframe4.position.y = 2;
+                southwindowframe4.position.x = -6.88;
+                southwindowframe4.position.z = 2.0;
+
+                scene.add(southwindowframe4);
+
+                //SOUTH DOOR
+
+                var doormesh = new THREE.TextureLoader().load("../assets/textures/general/door.png");
+
+
+                var buildingMaterial13 = new THREE.MeshLambertMaterial({map: doormesh});
+                var buildingGeometry13 = new THREE.CubeGeometry(0.25, 3, 1.5);
+
+                //SOUTH DOOR FRAME
+
+                var buildingMaterial1300 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry1300 = new THREE.CubeGeometry(0.25, 3.5, 2);
+
+                var door1 = new THREE.Mesh(buildingGeometry1300, buildingMaterial1300);
+                door1.position.y = 1;
+                door1.position.x = -6.89;
+                door1.position.z = 5.5;
+
+                scene.add(door1);
+
+                var doorframe1 = new THREE.Mesh(buildingGeometry13, buildingMaterial13);
+                doorframe1.position.y = 1;
+                doorframe1.position.x = -6.90;
+                doorframe1.position.z = 5.5;
+
+                scene.add(doorframe1);
+
+
+                //EAST WINDOWS
+
+                var buildingMaterial14 = new THREE.MeshLambertMaterial({map: windowmesh});
+                var buildingGeometry14 = new THREE.CubeGeometry(3, 2, 0.25);
+
+                //EAST WINDOW FRAMES 
+
+                var buildingMaterial15 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry15 = new THREE.CubeGeometry(3.5, 2.5, 0.25);
+
+
+                var eastwindow1 = new THREE.Mesh(buildingGeometry14, buildingMaterial14);
+
+                eastwindow1.position.y = 8.5;
+                eastwindow1.position.x = -4;
+                eastwindow1.position.z = 7.40;
+
+                scene.add(eastwindow1);
+
+                var eastwindowframe1 = new THREE.Mesh(buildingGeometry15, buildingMaterial15);
+
+                eastwindowframe1.position.y = 8.5;
+                eastwindowframe1.position.x = -4;
+                eastwindowframe1.position.z = 7.38;
+
+                scene.add(eastwindowframe1);
+
+
+
+                var eastwindow2 = new THREE.Mesh(buildingGeometry14, buildingMaterial14);
+
+                eastwindow2.position.y = 4;
+                eastwindow2.position.x = -4;
+                eastwindow2.position.z = 7.40;
+
+                scene.add(eastwindow2);
+
+                var eastwindowframe2 = new THREE.Mesh(buildingGeometry15, buildingMaterial15);
+
+                eastwindowframe2.position.y = 4;
+                eastwindowframe2.position.x = -4;
+                eastwindowframe2.position.z = 7.38;
+
+                scene.add(eastwindowframe2);
+
+
+
+
+                var eastwindow3 = new THREE.Mesh(buildingGeometry14, buildingMaterial14);
+
+                eastwindow3.position.y = 8.5;
+                eastwindow3.position.x = 2.5;
+                eastwindow3.position.z = 7.40;
+
+                scene.add(eastwindow3);
+
+                var eastwindowframe3 = new THREE.Mesh(buildingGeometry15, buildingMaterial15);
+
+                eastwindowframe3.position.y = 8.5;
+                eastwindowframe3.position.x = 2.5;
+                eastwindowframe3.position.z = 7.38;
+
+                scene.add(eastwindowframe3);
+
+                //EAST DOOR
+
+                var buildingMaterial16 = new THREE.MeshLambertMaterial({map: doormesh});
+                var buildingGeometry16 = new THREE.CubeGeometry(2, 4.5, 0.25);
+
+                //EAST DOOR FRAME
+
+                var buildingMaterial17 = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
+                var buildingGeometry17 = new THREE.CubeGeometry(2.5, 5, 0.25);
+
+
+                var eastdoor = new THREE.Mesh(buildingGeometry16, buildingMaterial16);
+
+                eastdoor.position.y = 1.5;
+                eastdoor.position.x = 1.5;
+                eastdoor.position.z = 7.39;
+
+                scene.add(eastdoor);
+
+                var eastdoorframe = new THREE.Mesh(buildingGeometry17, buildingMaterial17);
+
+                eastdoorframe.position.y = 1.5;
+                eastdoorframe.position.x = 1.5;
+                eastdoorframe.position.z = 7.38;
+
+                scene.add(eastdoorframe);
+
+                //POLES
+
+                var poleMaterial = new THREE.MeshLambertMaterial({color: 0x696969});
+                var poleGeometry = new THREE.CylinderGeometry(0.25, 0.25, 8);
+
+                //EAST POLES
+                var pole1 = new THREE.Mesh(poleGeometry, poleMaterial);
+                pole1.castShadow = true;
+                pole1.position.y = 0;
+                pole1.position.x = 4;
+                pole1.position.z = 10.5;
+                scene.add(pole1);
+
+                var pole2 = new THREE.Mesh(poleGeometry, poleMaterial);
+                pole2.castShadow = true;
+                pole2.position.y = 0;
+                pole2.position.x = -1;
+                pole2.position.z = 10.5;
+                scene.add(pole2);
+
+                //SOUTH POLES
+
+                var pole3 = new THREE.Mesh(poleGeometry, poleMaterial);
+                pole3.castShadow = true;
+                pole3.position.y = 0;
+                pole3.position.x = -9.75;
+                pole3.position.z = 4;
+                scene.add(pole3);
+
+                var pole4 = new THREE.Mesh(poleGeometry, poleMaterial);
+                pole4.castShadow = true;
+                pole4.position.y = 0;
+                pole4.position.x = -9.65;
+                pole4.position.z = 7;
+                scene.add(pole4);
+
+
+
+                // position and point the camera to the center of the scene
+                camera.position.x = -40;
+                camera.position.y = 20;
+                camera.position.z = 40;
+                camera.lookAt(scene.position);
+
+               
+                // add subtle ambient lighting
+                var ambientLight = new THREE.AmbientLight(0x0c0c0c);
+                scene.add(ambientLight);
+
+
+
+                // add spotlight for the shadows
+                var spotLight = new THREE.SpotLight(0xffffff);
+                spotLight.position.set(-40, 60, 28);
+                spotLight.castShadow = true;
+                scene.add(spotLight);
+
+                // add the output of the renderer to the html element
+                $("#WebGL-output").append(renderer.domElement);
+
+                // call the render function
+                renderer.render(scene, camera);
+
+
+                // render using requestAnimationFrame
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    renderer.render(scene, camera);
+                }
+                animate();
+
+                stats.update();
+
+
+                function initStats() {
+
+                    var stats = new Stats();
+
+                    stats.setMode(0); // 0: fps, 1: ms
+
+                    // Align top-left
+                    stats.domElement.style.position = 'absolute';
+                    stats.domElement.style.left = '0px';
+                    stats.domElement.style.top = '0px';
+                    $("#Stats-output").append(stats.domElement);
+
+                    return stats;
+                }
+            });
+
+        </script>
+    </body>
+</html>
